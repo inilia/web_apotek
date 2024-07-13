@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand navbar-dark">
     <div class="container-lg">
-        <a class="navbar-brand" href="index.php"><i class="bi bi-hospital"></i> Apotek</a>
+        <a class="navbar-brand" href="."><i class="bi bi-hospital"></i> Apotek</a>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
