@@ -2,19 +2,19 @@
 
 Sebuah aplikasi yang dapat digunakan untuk pemesanan obat dan produk kesehatan lainnya di apotek.
 
-## Pemilik/admin
+## Pemilik/admin (1)
 
 - Melihat laporan
 - Menambah/mengubah/menghapus daftar produk dan harga
 - Menambah/mengubah/menghapus user
 
-## Kasir
+## Kasir (2)
 
 - Melihat harga dan total harga pesanan
 - Konfirmasi pembayaran
 - Membuat bukti pembayaran
 
-## Pelayanan
+## Pelayanan (3)
 
 - Melihat produk dan harga
 - Memilih produk
@@ -23,7 +23,7 @@ Sebuah aplikasi yang dapat digunakan untuk pemesanan obat dan produk kesehatan l
 - Update pesanan
 - Hapus pesanan
 
-## Gudang
+## Gudang (4)
 
 - Melihat stok produk
 - Menambah stok produk

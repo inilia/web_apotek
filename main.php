@@ -81,28 +81,37 @@
         color: #fff;
     }
     </style>
-
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="signin.css">
 </head>
 
-<body style="height : 3000px">
+<body>
     <!-- Header -->
     <?php include "navbar.php"; ?>
     <!-- End Header -->
-    <div class="container-lg">
+
+    <div class="container-fluid">
         <div class="row">
             <!--Sidebar-->
-            <?php include "sidebar.php"; ?>
+            <div class="col-md-3">
+                <?php include "sidebar.php"; ?>
+            </div>
             <!--End Sidebar-->
 
             <!-- Content -->
-            <?php
-            include $page;
-            ?>
+            <div class="col-md-9">
+                <?php
+                // Tentukan nilai default untuk $page jika belum diatur
+                $page = isset($page) ? $page : 'home.php';
+
+                // Periksa apakah file tersebut ada sebelum di-include
+                if (file_exists($page)) {
+                    include $page;
+                } else {
+                    echo "Halaman tidak ditemukan.";
+                }
+                ?>
+            </div>
             <!-- End Content -->
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
