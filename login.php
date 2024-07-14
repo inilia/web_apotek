@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!empty($_SESSION['username_apotek'])) {
+    header('location:home');
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
 

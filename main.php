@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (empty($_SESSION['username_apotek'])) {
+    header('location:login');
+
+}
+?>
 <!doctype html>
 <html lang="en">
 
