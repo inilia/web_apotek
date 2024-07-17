@@ -28,3 +28,25 @@ Sebuah aplikasi yang dapat digunakan untuk pemesanan obat dan produk kesehatan l
 - Melihat stok produk
 - Menambah stok produk
 - Mengurangi stok produk
+
+---
+
+## Pemilik/admin (1)
+
+    - Daftar obat
+    - pesanan
+    - User
+
+## Kasir (2)
+
+    - daftar obat
+    - Pesanan
+
+## Pelayanan (3)
+
+    - Daftar obat
+    - pesanan
+
+## Gudang (4)
+
+    - stok obat

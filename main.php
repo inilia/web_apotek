@@ -1,10 +1,24 @@
 <?php
 session_start();
 if (empty($_SESSION['username_apotek'])) {
-    header('location:login');
+    header('location: login.php');
+    exit;
+}
 
+include "proses/connect.php";
+$query = mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '{$_SESSION['username_apotek']}'");
+if ($query) {
+    $hasil = mysqli_fetch_assoc($query);
+    if ($hasil) {
+        $username = $hasil['username'];
+    } else {
+        echo "Data user tidak ditemukan.";
+    }
+} else {
+    echo "Gagal menjalankan query: " . mysqli_error($conn);
 }
 ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -106,10 +120,9 @@ if (empty($_SESSION['username_apotek'])) {
             <!-- Content -->
             <div class="col-md-9">
                 <?php
-                // Tentukan nilai default untuk $page jika belum diatur
-                $page = isset($page) ? $page : 'home.php';
+                $page = isset($_GET['x']) ? $_GET['x'] . '.php' : 'home.php';
 
-                // Periksa apakah file tersebut ada sebelum di-include
+
                 if (file_exists($page)) {
                     include $page;
                 } else {
