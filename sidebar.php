@@ -1,3 +1,4 @@
+<!-- sidebar.php -->
 <nav class="navbar navbar-expand-lg bg-light rounded border mt-2">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
@@ -13,41 +14,38 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav nav-pills flex-column justify-content-end flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET
-                        ['x'] == 'home') ? 'active link-light' : 'link-dark'; ?>" aria-current="page"
-                            href="home.php?x=home">
+                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET['x'] == 'home') ? 'active link-light' : 'link-dark'; ?>"
+                            aria-current="page" href="home.php?x=home">
                             <i class="bi bi-house-heart"></i> Home
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET
-                        ['x'] == 'daftar_obat') ? 'active link-light' : 'link-dark'; ?>"
+                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET['x'] == 'daftar_obat') ? 'active link-light' : 'link-dark'; ?>"
                             href="daftar_obat.php?x=daftar_obat">
                             <i class="bi bi-capsule-pill"></i> Daftar Obat
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET
-                        ['x'] == 'kasir') ? 'active link-light' : 'link-dark'; ?>" href="kasir.php?x=kasir">
+                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET['x'] == 'kasir') ? 'active link-light' : 'link-dark'; ?>"
+                            href="kasir.php?x=kasir">
                             <i class="bi bi-person-arms-up"></i> Kasir
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET
-                        ['x'] == 'pelayanan') ? 'active link-light' : 'link-dark'; ?>"
+                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET['x'] == 'pelayanan') ? 'active link-light' : 'link-dark'; ?>"
                             href="pelayanan.php?x=pelayanan">
                             <i class="bi bi-people-fill"></i> Pelayanan
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET
-                        ['x'] == 'gudang') ? 'active link-light' : 'link-dark'; ?>" href="gudang.php?x=gudang">
+                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET['x'] == 'gudang') ? 'active link-light' : 'link-dark'; ?>"
+                            href="gudang.php?x=gudang">
                             <i class="bi bi-box-seam"></i> Gudang
                         </a>
                     </li>
-                    <li>
-                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET
-                        ['x'] == 'admin') ? 'active link-light' : 'link-dark'; ?>" href="admin.php?x=admin">
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (isset($_GET['x']) && $_GET['x'] == 'admin') ? 'active link-light' : 'link-dark'; ?>"
+                            href="admin.php?x=admin">
                             <i class="bi bi-person-badge"></i> Admin
                         </a>
                     </li>

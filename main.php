@@ -111,17 +111,16 @@ if ($query) {
 
     <div class="container-fluid">
         <div class="row">
-            <!--Sidebar-->
+            <!-- Sidebar -->
             <div class="col-md-3">
                 <?php include "sidebar.php"; ?>
             </div>
-            <!--End Sidebar-->
+            <!-- End Sidebar -->
 
             <!-- Content -->
             <div class="col-md-9">
                 <?php
                 $page = isset($_GET['x']) ? $_GET['x'] . '.php' : 'home.php';
-
 
                 if (file_exists($page)) {
                     include $page;
