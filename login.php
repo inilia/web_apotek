@@ -106,7 +106,6 @@ if (!empty($_SESSION['username_apotek'])) {
     }
     </style>
 
-    <!-- Custom styles for this template -->
     <link href="assets/css/login.css" rel="stylesheet" />
 </head>
 
@@ -172,14 +171,11 @@ if (!empty($_SESSION['username_apotek'])) {
         </form>
     </main>
     <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
     (() => {
         'use strict'
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
         const forms = document.querySelectorAll('.needs-validation')
 
-        // Loop over them and prevent submission
         Array.from(forms).forEach(form => {
             form.addEventListener('submit', event => {
                 if (!form.checkValidity()) {

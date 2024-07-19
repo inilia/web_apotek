@@ -12,8 +12,8 @@
                     <ul class="dropdown-menu dropdown-menu-end mt-2">
                         <li><a class="dropdown-item" href="#"><i class="bi bi-person-bounding-box"></i> Profil</a></li>
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                data-bs-target="#ModalUbahPassword "><i class="bi bi-eye"></i></button>><i
-                                    class="bi bi-key"></i> Ubah Password</a></li>
+                                data-bs-target="#ModalUbahPassword "></button><i class="bi bi-key"></i> Ubah
+                                Password</a></li>
                         <li><a class="dropdown-item" href="logout.php"><i class="bi bi-box-arrow-left"></i> Logout</a>
                         </li>
                     </ul>

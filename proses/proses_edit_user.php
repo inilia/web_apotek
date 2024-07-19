@@ -1,7 +1,6 @@
 <?php
 include "connect.php";
 
-// Ambil data dari form POST
 $id = isset($_POST['id']) ? htmlentities($_POST['id']) : "";
 $username = isset($_POST['username']) ? htmlentities($_POST['username']) : "";
 $level = isset($_POST['level']) ? htmlentities($_POST['level']) : "";
@@ -12,7 +11,7 @@ $password = isset($_POST['password']) ? password_hash($_POST['password'], PASSWO
 $message = '';
 
 if (isset($_POST['input_user_validate'])) {
-    // Update statement menggunakan prepared statements untuk keamanan
+
     $stmt = $conn->prepare("UPDATE tb_user SET username=?, level=?, nohp=?, alamat=?, password=? WHERE id=?");
     $stmt->bind_param("sssssi", $username, $level, $nohp, $alamat, $password, $id);
 

@@ -137,7 +137,8 @@
                                                 data-bs-target="#editAdminModal<?php echo $row['id']; ?>"><i
                                                     class="bi bi-pencil-square"></i></button>
                                             <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#deleteAdminModal"><i class="bi bi-trash"></i></button>
+                                                data-bs-target="#deleteAdminModal<?php echo $row['id']; ?>"><i
+                                                    class="bi bi-trash"></i></button>
                                         </td>
                                     </tr>
                                     <?php
@@ -381,94 +382,31 @@
     <!-- End Modal Edit Admin -->
 
     <!-- Modal Delete Admin -->
-    <?php
-    foreach ($result as $row) {
-        ?>
-    <div class="modal fade" id="ModalDelete<?php echo $row['id']; ?>" tabindex="-1"
-        aria-labelledby="editAdminModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
-        <div class="modal-dialog modal-x1 modal-fullscreen-md-down">
+    <?php foreach ($result as $row) { ?>
+    <div class="modal fade" id="deleteAdminModal<?php echo $row['id']; ?>" tabindex="-1"
+        aria-labelledby="deleteAdminModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="editAdminModalLabel<?php echo $row['id']; ?>">Edit Admin</h1>
+                    <h1 class="modal-title fs-5" id="deleteAdminModalLabel<?php echo $row['id']; ?>">Hapus Admin</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Form untuk delete admin -->
-                    <form class="needs-validation" novalidate action="proses/proses_edit_user.php" method="POST">
-                        <input type="hidden" value="<?php echo $row['id'] ?>" name="id">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="nama_edit<?php echo $row['id']; ?>"
-                                        placeholder="Nama" name="nama" value="<?php echo $row['nama']; ?>" required>
-                                    <label for="nama_edit<?php echo $row['id']; ?>">Nama</label>
-                                    <div class="invalid-feedback">Masukkan nama.</div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="username_edit<?php echo $row['id']; ?>"
-                                        placeholder="Email" name="username" value="<?php echo $row['username']; ?>"
-                                        required>
-                                    <label for="username_edit<?php echo $row['id']; ?>">Username</label>
-                                    <div class="invalid-feedback">Masukkan username.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="level_edit<?php echo $row['id']; ?>" name="level"
-                                        required>
-                                        <option value="1" <?php if ($row['level'] == 1)
-                                                echo 'selected'; ?>>Admin
-                                        </option>
-                                        <option value="2" <?php if ($row['level'] == 2)
-                                                echo 'selected'; ?>>Kasir
-                                        </option>
-                                        <option value="3" <?php if ($row['level'] == 3)
-                                                echo 'selected'; ?>>Pelayan
-                                        </option>
-                                        <option value="4" <?php if ($row['level'] == 4)
-                                                echo 'selected'; ?>>Gudang
-                                        </option>
-                                    </select>
-                                    <label for="level_edit<?php echo $row['id']; ?>">Level User</label>
-                                    <div class="invalid-feedback">Pilih level user.</div>
-                                </div>
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="nohp_edit<?php echo $row['id']; ?>"
-                                        placeholder="No HP" name="nohp" value="<?php echo $row['nohp']; ?>">
-                                    <label for="nohp_edit<?php echo $row['id']; ?>">No HP</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" id="alamat_edit<?php echo $row['id']; ?>"
-                                        placeholder="Alamat" style="height: 100px;"
-                                        name="alamat"><?php echo $row['alamat']; ?></textarea>
-                                    <label for="alamat_edit<?php echo $row['id']; ?>">Alamat</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="edit_user_validate">Simpan Perubahan
-                            </button>
-                        </div>
+                    <p>Apakah Anda yakin ingin menghapus admin <strong><?php echo $row['nama']; ?></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <form action="proses/proses_delete_user.php" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                        <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <?php
-    }
-    ?>
-    <!-- End Modal Edit Admin -->
+    <?php } ?>
+    <!-- End Modal Delete Admin -->
+
 
     <?php
     foreach ($result as $row) {
