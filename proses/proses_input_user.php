@@ -19,7 +19,8 @@ if (isset($_POST['input_user_validate'])) {
         $message = '<script>alert("Data gagal dimasukkan"); window.location="../user";</script>';
     }
 } else {
-    header("Location: ../admin.php");
+    header("Location: admin.php");
+    exit();
 }
 
 

@@ -93,6 +93,54 @@
                     <div class="card-body">
                         <h5 class="card-title">Halaman Pelayanan</h5>
                         <p class="card-text">Anda dapat menyimpan dan mengelola data pelanggan dengan rapi dan aman.</p>
+
+                        <!-- Daftar Produk -->
+                        <?php
+                        include 'connect.php';
+
+                        // Query untuk mengambil data produk
+                        $sql = "SELECT * FROM produk";
+                        $result = $conn->query($sql);
+
+                        // Tampilkan daftar produk
+                        if ($result->num_rows > 0) {
+                            echo "<h2>Daftar Produk</h2>";
+                            echo "<ul>";
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<li>" . $row["nama_produk"] . " - Rp " . number_format($row["harga"], 0, ",", ".") . "</li>";
+                            }
+                            echo "</ul>";
+                        } else {
+                            echo "Tidak ada produk yang ditemukan.";
+                        }
+                        ?>
+
+                        <!-- Form Membuat Pesanan -->
+                        <form action="proses_pesanan.php" method="post">
+                            <div class="mb-3">
+                                <label for="id_produk" class="form-label">Pilih Produk</label>
+                                <select class="form-select" id="id_produk" name="id_produk">
+                                    <!-- Option produk diisi dari database atau static option -->
+                                    <option value="1">Produk 1</option>
+                                    <option value="2">Produk 2</option>
+                                    <option value="3">Produk 3</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="jumlah" class="form-label">Jumlah</label>
+                                <input type="number" class="form-control" id="jumlah" name="jumlah" min="1" value="1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Buat Pesanan</button>
+                        </form>
+
+                        <!-- Tampilkan Total Harga Pesanan -->
+                        <?php
+                        // Anda dapat menambahkan logika untuk menghitung total harga pesanan di sini
+                        ?>
+                        <div class="mt-3">
+                            <h5>Total Harga Pesanan:</h5>
+                            <!-- Tampilkan total harga pesanan di sini -->
+                        </div>
                     </div>
                 </div>
             </div>
