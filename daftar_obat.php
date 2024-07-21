@@ -68,6 +68,18 @@
     .navbar-nav .dropdown-item:hover {
         background-color: #28a745;
     }
+
+    .footer {
+        background-color: #28a745;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        margin-top: auto;
+    }
+
+    .footer p {
+        margin: 0;
+    }
     </style>
 </head>
 
@@ -343,6 +355,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-Jew0l9iJkJ5F5enOaVAmMjZnbQf2p9WnlTnY5fclA0ijTu2j2UEnMbU4k8IjM9+Y" crossorigin="anonymous">
     </script>
+
+    <footer class="footer">
+        <p>&copy; 2024 Sistem Informasi Manajemen Apotek.</p>
+    </footer>
+
 </body>
 
 </html>

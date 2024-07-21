@@ -68,6 +68,27 @@
     .navbar-nav .dropdown-item:hover {
         background-color: #28a745;
     }
+
+    .btn-custom {
+        background-color: #20c997;
+        color: #fff;
+    }
+
+    .btn-custom:hover {
+        background-color: #17a2b8;
+    }
+
+    .footer {
+        background-color: #28a745;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        margin-top: auto;
+    }
+
+    .footer p {
+        margin: 0;
+    }
     </style>
 </head>
 
@@ -88,27 +109,24 @@
             <div class="col-lg-9 mt-2">
                 <div class="card">
                     <div class="card-header text-white">
-                        <i class="bi bi-shop"></i> Menu Pelayanan
+                        <i class="bi bi-cart"></i> Halaman Pelayanan
                     </div>
                     <div class="card-body">
                         <div class="row mb-3">
-                            <div class="col text-end">
-                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addOrderModal">
+                            <div class="col">
+                                <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#addOrderModal">
                                     Tambah Pesanan
-                                </button>
-                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#viewProductsModal">
-                                    Lihat Produk
                                 </button>
                             </div>
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive mb-3">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th scope="col">No</th>
                                         <th scope="col">Nama Produk</th>
-                                        <th scope="col">Jumlah</th>
                                         <th scope="col">Harga</th>
+                                        <th scope="col">Jumlah</th>
                                         <th scope="col">Total Harga</th>
                                         <th scope="col">Aksi</th>
                                     </tr>
@@ -116,97 +134,76 @@
                                 <tbody>
                                     <?php
                                     include "proses/connect.php";
-                                    $query = mysqli_query($conn, "SELECT * FROM pesanan");
-                                    if (mysqli_num_rows($query) > 0) {
+                                    $query = mysqli_query($conn, "SELECT * FROM produk");
+                                    $products = mysqli_fetch_all($query, MYSQLI_ASSOC);
+                                    if (empty($products)) {
+                                        echo "<tr><td colspan='6' class='text-center'>Data produk tidak ada</td></tr>";
+                                    } else {
                                         $no = 1;
-                                        while ($row = mysqli_fetch_assoc($query)) {
-                                            $totalHarga = $row['jumlah'] * $row['harga'];
+                                        foreach ($products as $product) {
                                             ?>
                                     <tr>
-                                        <th scope="row"><?php echo $no++; ?></th>
-                                        <td><?php echo htmlspecialchars($row['nama_produk']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['jumlah']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['harga']); ?></td>
-                                        <td><?php echo htmlspecialchars($totalHarga); ?></td>
-                                        <td class="d-flex">
-                                            <button class="btn btn-info btn-sm me-1" data-bs-toggle="modal"
-                                                data-bs-target="#viewOrderModal<?php echo $row['id']; ?>">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                            <button class="btn btn-warning btn-sm me-1" data-bs-toggle="modal"
-                                                data-bs-target="#editOrderModal<?php echo $row['id']; ?>">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#deleteOrderModal<?php echo $row['id']; ?>">
-                                                <i class="bi bi-trash"></i>
+                                        <th scope="row"><?php echo $no++ ?></th>
+                                        <td><?php echo htmlspecialchars($product['nama_produk']); ?></td>
+                                        <td><?php echo number_format($product['harga'], 2); ?></td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                id="qty_<?php echo $product['id']; ?>" value="1" min="1">
+                                        </td>
+                                        <td id="total_<?php echo $product['id']; ?>">
+                                            <?php echo number_format($product['harga'], 2); ?>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm"
+                                                onclick="addToOrder(<?php echo $product['id']; ?>)">
+                                                <i class="bi bi-plus-circle"></i> Tambah
                                             </button>
                                         </td>
                                     </tr>
                                     <?php
                                         }
-                                    } else {
-                                        echo "<tr><td colspan='6' class='text-center'>Data pesanan tidak ada</td></tr>";
                                     }
                                     ?>
                                 </tbody>
                             </table>
                         </div>
+                        <hr>
+                        <div class="row mb-3">
+                            <div class="col-lg-4">
+                                <h5>Total Harga Pesanan:</h5>
+                                <p id="order_total">Rp 0.00</p>
+                            </div>
+                        </div>
+                        <div class="table-responsive mb-3">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Nama Produk</th>
+                                        <th scope="col">Harga</th>
+                                        <th scope="col">Jumlah</th>
+                                        <th scope="col">Total Harga</th>
+                                        <th scope="col">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="order_table_body">
+                                    <!-- Pesanan akan ditambahkan di sini -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#updateOrderModal">
+                            Update Pesanan
+                        </button>
+                        <button class="btn btn-danger" id="deleteOrderButton" data-bs-toggle="modal"
+                            data-bs-target="#deleteOrderModal">
+                            Hapus Pesanan
+                        </button>
                     </div>
                 </div>
             </div>
             <!-- End Content -->
         </div>
     </div>
-
-    <!-- Modal Lihat Produk -->
-    <div class="modal fade" id="viewProductsModal" tabindex="-1" aria-labelledby="viewProductsModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="viewProductsModalLabel">Daftar Produk dan Harga</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Produk</th>
-                                    <th scope="col">Harga</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $query_products = mysqli_query($conn, "SELECT * FROM produk");
-                                if (mysqli_num_rows($query_products) > 0) {
-                                    $no = 1;
-                                    while ($product = mysqli_fetch_assoc($query_products)) {
-                                        ?>
-                                <tr>
-                                    <th scope="row"><?php echo $no++; ?></th>
-                                    <td><?php echo htmlspecialchars($product['nama_produk']); ?></td>
-                                    <td><?php echo htmlspecialchars($product['harga']); ?></td>
-                                </tr>
-                                <?php
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='3' class='text-center'>Data produk tidak ada</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Modal Lihat Produk -->
 
     <!-- Modal Tambah Pesanan -->
     <div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderModalLabel" aria-hidden="true">
@@ -217,36 +214,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Form untuk tambah pesanan -->
-                    <form class="needs-validation" novalidate action="proses/proses_tambah_pesanan.php" method="POST">
+                    <!-- Form untuk menambahkan pesanan -->
+                    <form id="orderForm">
                         <div class="mb-3">
-                            <label for="produkSelect" class="form-label">Pilih Produk</label>
-                            <select class="form-select" id="produkSelect" name="id_produk" required>
-                                <option value="" selected disabled>Pilih produk</option>
+                            <label for="order_product" class="form-label">Produk</label>
+                            <select class="form-select" id="order_product" required>
                                 <?php
-                                // Retrieve products for the select dropdown
-                                $query_products = mysqli_query($conn, "SELECT * FROM produk");
-                                while ($product = mysqli_fetch_assoc($query_products)) {
-                                    ?>
-                                <option value="<?php echo $product['id']; ?>">
-                                    <?php echo htmlspecialchars($product['nama_produk'] . ' - ' . $product['harga']); ?>
-                                </option>
-                                <?php
+                                $query = mysqli_query($conn, "SELECT * FROM produk");
+                                while ($product = mysqli_fetch_assoc($query)) {
+                                    echo "<option value='" . $product['id'] . "'>" . htmlspecialchars($product['nama_produk']) . " - Rp " . number_format($product['harga'], 2) . "</option>";
                                 }
                                 ?>
                             </select>
-                            <div class="invalid-feedback">Pilih produk untuk pesanan.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="jumlah" class="form-label">Jumlah</label>
-                            <input type="number" class="form-control" id="jumlah" name="jumlah" required>
-                            <div class="invalid-feedback">Masukkan jumlah pesanan.</div>
+                            <label for="order_quantity" class="form-label">Jumlah</label>
+                            <input type="number" class="form-control" id="order_quantity" min="1" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="totalHarga" class="form-label">Total Harga</label>
-                            <input type="text" class="form-control" id="totalHarga" name="total_harga" readonly>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Tambah Pesanan</button>
                         </div>
-                        <button type="submit" class="btn btn-primary">Tambah Pesanan</button>
                     </form>
                 </div>
             </div>
@@ -254,114 +242,176 @@
     </div>
     <!-- End Modal Tambah Pesanan -->
 
-    <!-- Modals untuk Edit dan Hapus Pesanan -->
-    <?php
-    $query = mysqli_query($conn, "SELECT * FROM pesanan");
-    if (mysqli_num_rows($query) > 0) {
-        while ($row = mysqli_fetch_assoc($query)) {
-            ?>
-    <!-- Modal Edit Pesanan -->
-    <div class="modal fade" id="editOrderModal<?php echo $row['id']; ?>" tabindex="-1"
-        aria-labelledby="editOrderModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
+    <!-- Modal Update Pesanan -->
+    <div class="modal fade" id="updateOrderModal" tabindex="-1" aria-labelledby="updateOrderModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="editOrderModalLabel<?php echo $row['id']; ?>">Edit Pesanan</h1>
+                    <h1 class="modal-title fs-5" id="updateOrderModalLabel">Update Pesanan</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="proses/proses_edit_pesanan.php" method="POST">
-                        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <!-- Form untuk memperbarui pesanan -->
+                    <form id="updateOrderForm">
                         <div class="mb-3">
-                            <label for="editProdukSelect<?php echo $row['id']; ?>" class="form-label">Pilih
-                                Produk</label>
-                            <select class="form-select" id="editProdukSelect<?php echo $row['id']; ?>" name="id_produk"
-                                required>
+                            <label for="update_order_id" class="form-label">ID Pesanan</label>
+                            <input type="text" class="form-control" id="update_order_id" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="update_product" class="form-label">Produk</label>
+                            <select class="form-select" id="update_product" required>
                                 <?php
-                                        $query_products = mysqli_query($conn, "SELECT * FROM produk");
-                                        while ($product = mysqli_fetch_assoc($query_products)) {
-                                            $selected = ($row['id_produk'] == $product['id']) ? 'selected' : '';
-                                            ?>
-                                <option value="<?php echo $product['id']; ?>" <?php echo $selected; ?>>
-                                    <?php echo htmlspecialchars($product['nama_produk'] . ' - ' . $product['harga']); ?>
-                                </option>
-                                <?php
-                                        }
-                                        ?>
+                                $query = mysqli_query($conn, "SELECT * FROM produk");
+                                while ($product = mysqli_fetch_assoc($query)) {
+                                    echo "<option value='" . $product['id'] . "'>" . htmlspecialchars($product['nama_produk']) . " - Rp " . number_format($product['harga'], 2) . "</option>";
+                                }
+                                ?>
                             </select>
-                            <div class="invalid-feedback">Pilih produk untuk pesanan.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="editJumlah<?php echo $row['id']; ?>" class="form-label">Jumlah</label>
-                            <input type="number" class="form-control" id="editJumlah<?php echo $row['id']; ?>"
-                                name="jumlah" value="<?php echo htmlspecialchars($row['jumlah']); ?>" required>
-                            <div class="invalid-feedback">Masukkan jumlah pesanan.</div>
+                            <label for="update_quantity" class="form-label">Jumlah</label>
+                            <input type="number" class="form-control" id="update_quantity" min="1" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="editTotalHarga<?php echo $row['id']; ?>" class="form-label">Total Harga</label>
-                            <input type="text" class="form-control" id="editTotalHarga<?php echo $row['id']; ?>"
-                                name="total_harga" value="<?php echo htmlspecialchars($row['total_harga']); ?>"
-                                readonly>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Update Pesanan</button>
                         </div>
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Modal Edit Pesanan -->
+    <!-- End Modal Update Pesanan -->
 
-    <!-- Modal Hapus Pesanan -->
-    <div class="modal fade" id="deleteOrderModal<?php echo $row['id']; ?>" tabindex="-1"
-        aria-labelledby="deleteOrderModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
+    <!-- Modal Konfirmasi Hapus Pesanan -->
+    <div class="modal fade" id="deleteOrderModal" tabindex="-1" aria-labelledby="deleteOrderModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deleteOrderModalLabel<?php echo $row['id']; ?>">Hapus Pesanan</h1>
+                    <h1 class="modal-title fs-5" id="deleteOrderModalLabel">Hapus Pesanan</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Apakah Anda yakin ingin menghapus pesanan ini?</p>
-                    <form action="proses/proses_hapus_pesanan.php" method="POST">
-                        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    </form>
+                    <input type="hidden" id="delete_order_id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteOrder">Hapus</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Modal Hapus Pesanan -->
-    <?php
-        }
-    }
-    ?>
+    <!-- End Modal Konfirmasi Hapus Pesanan -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz4fnFOuG7qW2Ptvw8iYSXkZZMo1V4SbZZ91x9J0RWPruS1gfBbeF9Hyn8" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz4fnFOs1DJPUC21zLY8GHlf3ZY7F9BIZn1V0sJ2eMbvTkUnUt0R8ANa2O" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-3g2HCEenCRzU1Aa0Oq8z4YOCTZKRl5K0eEr6lY3aH6/U2TcMOmDJt5/kAq35Upt6M" crossorigin="anonymous">
+        integrity="sha384-c2X5m8V0sSXIbiVmqmN5GueaFnBtAzPmp9FxJ0Q3kFgFtfTrDsbGq5zKkc6hoZos" crossorigin="anonymous">
     </script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Update total price when quantity or product changes
-        document.querySelector('#produkSelect').addEventListener('change', updateTotalPrice);
-        document.querySelector('#jumlah').addEventListener('input', updateTotalPrice);
+    function updateTotalPrice() {
+        let total = 0;
+        document.querySelectorAll("#order_table_body tr").forEach(row => {
+            const price = parseFloat(row.querySelector(".total_price").textContent.replace('Rp ', '').replace(
+                ',', ''));
+            total += price;
+        });
+        document.getElementById("order_total").textContent = 'Rp ' + total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g,
+            '$&,');
+    }
 
-        function updateTotalPrice() {
-            const produkSelect = document.querySelector('#produkSelect');
-            const jumlahInput = document.querySelector('#jumlah');
-            const totalHargaInput = document.querySelector('#totalHarga');
+    function addToOrder(productId) {
+        const quantity = document.getElementById('qty_' + productId).value;
+        const price = parseFloat(document.getElementById('total_' + productId).textContent.replace('Rp ', '').replace(
+            ',', ''));
+        const totalPrice = price * quantity;
 
-            const selectedOption = produkSelect.options[produkSelect.selectedIndex];
-            const harga = selectedOption ? parseFloat(selectedOption.textContent.split(' - ')[1]) : 0;
-            const jumlah = parseInt(jumlahInput.value) || 0;
+        let orderTableBody = document.getElementById('order_table_body');
+        let orderRow = document.getElementById('order_row_' + productId);
 
-            totalHargaInput.value = (harga * jumlah).toFixed(2);
+        if (!orderRow) {
+            orderRow = document.createElement('tr');
+            orderRow.id = 'order_row_' + productId;
+
+            orderRow.innerHTML = `
+                <td>${orderTableBody.children.length + 1}</td>
+                <td>${document.querySelector("#qty_" + productId).closest('tr').children[1].textContent}</td>
+                <td>Rp ${price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
+                <td>${quantity}</td>
+                <td class="total_price">Rp ${totalPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="removeFromOrder(${productId})">Hapus</button></td>
+            `;
+            orderTableBody.appendChild(orderRow);
+        } else {
+            let existingQuantity = parseInt(orderRow.children[3].textContent);
+            let newQuantity = existingQuantity + parseInt(quantity);
+            let newTotalPrice = price * newQuantity;
+
+            orderRow.children[3].textContent = newQuantity;
+            orderRow.children[4].textContent = 'Rp ' + newTotalPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         }
+
+        updateTotalPrice();
+    }
+
+    function removeFromOrder(productId) {
+        let row = document.getElementById('order_row_' + productId);
+        if (row) {
+            row.remove();
+            updateTotalPrice();
+        }
+    }
+
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const productId = document.getElementById('order_product').value;
+        const quantity = document.getElementById('order_quantity').value;
+        addToOrder(productId);
+
+        document.getElementById('orderForm').reset();
+        const addOrderModal = bootstrap.Modal.getInstance(document.getElementById('addOrderModal'));
+        addOrderModal.hide();
+    });
+
+    document.getElementById('updateOrderForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const orderId = document.getElementById('update_order_id').value;
+        const productId = document.getElementById('update_product').value;
+        const quantity = document.getElementById('update_quantity').value;
+
+        removeFromOrder(orderId);
+        addToOrder(productId);
+
+        document.getElementById('updateOrderForm').reset();
+        const updateOrderModal = bootstrap.Modal.getInstance(document.getElementById('updateOrderModal'));
+        updateOrderModal.hide();
+    });
+
+    document.getElementById('confirmDeleteOrder').addEventListener('click', function() {
+        const orderId = document.getElementById('delete_order_id').value;
+        removeFromOrder(orderId);
+        const deleteOrderModal = bootstrap.Modal.getInstance(document.getElementById('deleteOrderModal'));
+        deleteOrderModal.hide();
+    });
+
+    document.getElementById('deleteOrderButton').addEventListener('click', function() {
+
+        const orderId = Array.from(document.querySelectorAll('#order_table_body tr')).map(row => row.id.replace(
+            'order_row_', ''))[0];
+        document.getElementById('delete_order_id').value = orderId;
     });
     </script>
+
+    <footer class="footer">
+        <p>&copy; 2024 Sistem Informasi Manajemen Apotek.</p>
+    </footer>
+
 </body>
 
 </html>

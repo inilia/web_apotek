@@ -27,4 +27,5 @@ if (isset($_GET['x']) && $_GET['x'] == 'home') {
     $page = "home.php";
     include "home.php";
 }
+
 ?>

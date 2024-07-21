@@ -1,29 +1,27 @@
 <?php
-include '../connect.php';
+include 'connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $produk_id = $_POST['produk_id'];
+    $id_produk = $_POST['id_produk'];
     $jumlah = $_POST['jumlah'];
     $total_harga = $_POST['total_harga'];
 
-    $query = "SELECT harga FROM produk WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $produk_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $produk = $result->fetch_assoc();
-    $harga = $produk['harga'];
+    if (empty($id_produk) || empty($jumlah) || empty($total_harga)) {
+        echo "Data tidak lengkap!";
+        exit;
+    }
 
-    $total_harga = $harga * $jumlah;
-
-    $query = "INSERT INTO pesanan (produk_id, jumlah, total_harga) VALUES (?, ?, ?)";
+    $query = "INSERT INTO pesanan (id_produk, jumlah, total_harga) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("iii", $produk_id, $jumlah, $total_harga);
+    $stmt->bind_param("iis", $id_produk, $jumlah, $total_harga);
 
     if ($stmt->execute()) {
-        header("Location: ../index.php?message=Pesanan berhasil ditambahkan");
+        header("Location: halaman_layanan.php?status=sukses");
     } else {
-        header("Location: ../index.php?message=Gagal menambahkan pesanan");
+        echo "Error: " . $stmt->error;
     }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>

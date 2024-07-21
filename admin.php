@@ -68,6 +68,18 @@
     .navbar-nav .dropdown-item:hover {
         background-color: #28a745;
     }
+
+    .footer {
+        background-color: #28a745;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        margin-top: auto;
+    }
+
+    .footer p {
+        margin: 0;
+    }
     </style>
 </head>
 
@@ -170,7 +182,7 @@
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="nama" placeholder="Nama" name="nama"
-                                        value="<?php echo $row['nama'] ?>">
+                                        required>
                                     <label for="nama">Nama</label>
                                     <div class="invalid-feedback">Masukkan nama.</div>
                                 </div>
@@ -199,46 +211,42 @@
                             </div>
                             <div class="col-lg-8">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="nohp" placeholder="No HP" name="nohp">
-                                    <label for="nohp">No HP</label>
+                                    <input type="text" class="form-control" id="nohp" placeholder="No Telp" name="nohp"
+                                        required>
+                                    <label for="nohp">No Telp</label>
+                                    <div class="invalid-feedback">Masukkan nomor telepon.</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="password" placeholder="Password"
-                                        name="password" required>
-                                    <label for="password">Password</label>
-                                    <div class="invalid-feedback">Masukkan password.</div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" id="alamat" placeholder="Alamat"
-                                        style="height: 100px;" name="alamat"></textarea>
-                                    <label for="alamat">Alamat</label>
-                                </div>
-                            </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" placeholder="Alamat" id="alamat" name="alamat"
+                                required></textarea>
+                            <label for="alamat">Alamat</label>
+                            <div class="invalid-feedback">Masukkan alamat.</div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="input_user_validate">Tambah
-                                User</button>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" placeholder="Password"
+                                name="password" required>
+                            <label for="password">Password</label>
+                            <div class="invalid-feedback">Masukkan password.</div>
                         </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password2" placeholder="Confirm Password"
+                                name="password2" required>
+                            <label for="password2">Confirm Password</label>
+                            <div class="invalid-feedback">Masukkan konfirmasi password.</div>
+                        </div>
+                        <button class="w-100 btn btn-primary" type="submit" name="input_user_validate"
+                            value="abc">Tambah</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- End Modal Tambah Admin -->
+    <!-- Modal Lihat Admin -->
     <?php
-    foreach ($result as $row) {
-        ?>
-
-    <!-- Modal View Admin -->
-    <?php
+    if (!empty($result)) {
         foreach ($result as $row) {
             ?>
     <div class="modal fade" id="viewAdminModal<?php echo $row['id']; ?>" tabindex="-1"
@@ -246,55 +254,72 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="viewAdminModalLabel<?php echo $row['id']; ?>">Detail Data Admin
-                    </h1>
+                    <h1 class="modal-title fs-5" id="viewAdminModalLabel<?php echo $row['id']; ?>">Lihat Admin</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="viewNama<?php echo $row['id']; ?>" class="form-label">Nama</label>
-                        <input disabled type="text" class="form-control" id="viewNama<?php echo $row['id']; ?>"
-                            value="<?php echo $row['nama']; ?>" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="viewUsername<?php echo $row['id']; ?>" class="form-label">Username</label>
-                        <input disabled type="text" class="form-control" id="viewUsername<?php echo $row['id']; ?>"
-                            value="<?php echo $row['username']; ?>" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="viewLevel<?php echo $row['id']; ?>" class="form-label">Level</label>
-                        <input disabled type="text" class="form-control" id="viewLevel<?php echo $row['id']; ?>"
-                            value="<?php echo $row['level']; ?>" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="viewNohp<?php echo $row['id']; ?>" class="form-label">No HP</label>
-                        <input disabled type="text" class="form-control" id="viewNohp<?php echo $row['id']; ?>"
-                            value="<?php echo $row['nohp']; ?>" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="viewAlamat<?php echo $row['id']; ?>" class="form-label">Alamat</label>
-                        <textarea disabled class="form-control" id="viewAlamat<?php echo $row['id']; ?>" rows="3"
-                            readonly><?php echo $row['alamat']; ?></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- Tampilan detail admin -->
+                    <form class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="nama" placeholder="Nama" name="nama"
+                                        value="<?php echo $row['nama']; ?>" readonly>
+                                    <label for="nama">Nama</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="username" placeholder="Email"
+                                        name="username" value="<?php echo $row['username']; ?>" readonly>
+                                    <label for="username">Username</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="level" name="level" disabled>
+                                        <option value="1" <?php echo $row['level'] == 1 ? 'selected' : ''; ?>>Admin
+                                        </option>
+                                        <option value="2" <?php echo $row['level'] == 2 ? 'selected' : ''; ?>>Kasir
+                                        </option>
+                                        <option value="3" <?php echo $row['level'] == 3 ? 'selected' : ''; ?>>Pelayan
+                                        </option>
+                                        <option value="4" <?php echo $row['level'] == 4 ? 'selected' : ''; ?>>Gudang
+                                        </option>
+                                    </select>
+                                    <label for="level">Level User</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="nohp" placeholder="No Telp" name="nohp"
+                                        value="<?php echo $row['nohp']; ?>" readonly>
+                                    <label for="nohp">No Telp</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" placeholder="Alamat" id="alamat" name="alamat"
+                                readonly><?php echo $row['alamat']; ?></textarea>
+                            <label for="alamat">Alamat</label>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
     <?php
         }
-        ?>
-    <!-- End Modal View Admin -->
-    <?php }
+    }
     ?>
-
 
     <!-- Modal Edit Admin -->
     <?php
-    foreach ($result as $row) {
-        ?>
+    if (!empty($result)) {
+        foreach ($result as $row) {
+            ?>
     <div class="modal fade" id="editAdminModal<?php echo $row['id']; ?>" tabindex="-1"
         aria-labelledby="editAdminModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
         <div class="modal-dialog">
@@ -306,22 +331,21 @@
                 <div class="modal-body">
                     <!-- Form untuk edit admin -->
                     <form class="needs-validation" novalidate action="proses/proses_edit_user.php" method="POST">
-                        <input type="hidden" value="<?php echo $row['id'] ?>" name="id">
+                        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="nama_edit<?php echo $row['id']; ?>"
-                                        placeholder="Nama" name="nama" value="<?php echo $row['nama']; ?>" required>
-                                    <label for="nama_edit<?php echo $row['id']; ?>">Nama</label>
+                                    <input type="text" class="form-control" id="nama" placeholder="Nama" name="nama"
+                                        value="<?php echo $row['nama']; ?>" required>
+                                    <label for="nama">Nama</label>
                                     <div class="invalid-feedback">Masukkan nama.</div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="username_edit<?php echo $row['id']; ?>"
-                                        placeholder="Email" name="username" value="<?php echo $row['username']; ?>"
-                                        required>
-                                    <label for="username_edit<?php echo $row['id']; ?>">Username</label>
+                                    <input type="email" class="form-control" id="username" placeholder="Email"
+                                        name="username" value="<?php echo $row['username']; ?>" required>
+                                    <label for="username">Username</label>
                                     <div class="invalid-feedback">Masukkan username.</div>
                                 </div>
                             </div>
@@ -329,60 +353,52 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="level_edit<?php echo $row['id']; ?>" name="level"
-                                        required>
-                                        <option value="1" <?php if ($row['level'] == 1)
-                                                echo 'selected'; ?>>Admin
+                                    <select class="form-select" id="level" name="level" required>
+                                        <option value="1" <?php echo $row['level'] == 1 ? 'selected' : ''; ?>>Admin
                                         </option>
-                                        <option value="2" <?php if ($row['level'] == 2)
-                                                echo 'selected'; ?>>Kasir
+                                        <option value="2" <?php echo $row['level'] == 2 ? 'selected' : ''; ?>>Kasir
                                         </option>
-                                        <option value="3" <?php if ($row['level'] == 3)
-                                                echo 'selected'; ?>>Pelayan
+                                        <option value="3" <?php echo $row['level'] == 3 ? 'selected' : ''; ?>>Pelayan
                                         </option>
-                                        <option value="4" <?php if ($row['level'] == 4)
-                                                echo 'selected'; ?>>Gudang
+                                        <option value="4" <?php echo $row['level'] == 4 ? 'selected' : ''; ?>>Gudang
                                         </option>
                                     </select>
-                                    <label for="level_edit<?php echo $row['id']; ?>">Level User</label>
+                                    <label for="level">Level User</label>
                                     <div class="invalid-feedback">Pilih level user.</div>
                                 </div>
                             </div>
                             <div class="col-lg-8">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="nohp_edit<?php echo $row['id']; ?>"
-                                        placeholder="No HP" name="nohp" value="<?php echo $row['nohp']; ?>">
-                                    <label for="nohp_edit<?php echo $row['id']; ?>">No HP</label>
+                                    <input type="text" class="form-control" id="nohp" placeholder="No Telp" name="nohp"
+                                        value="<?php echo $row['nohp']; ?>" required>
+                                    <label for="nohp">No Telp</label>
+                                    <div class="invalid-feedback">Masukkan nomor telepon.</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" id="alamat_edit<?php echo $row['id']; ?>"
-                                        placeholder="Alamat" style="height: 100px;"
-                                        name="alamat"><?php echo $row['alamat']; ?></textarea>
-                                    <label for="alamat_edit<?php echo $row['id']; ?>">Alamat</label>
-                                </div>
-                            </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" placeholder="Alamat" id="alamat" name="alamat"
+                                required><?php echo $row['alamat']; ?></textarea>
+                            <label for="alamat">Alamat</label>
+                            <div class="invalid-feedback">Masukkan alamat.</div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="edit_user_validate">Simpan Perubahan
-                            </button>
-                        </div>
+                        <button class="w-100 btn btn-primary" type="submit" name="edit_user_validate">Simpan
+                            Perubahan</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
     <?php
+        }
     }
     ?>
-    <!-- End Modal Edit Admin -->
 
-    <!-- Modal Delete Admin -->
-    <?php foreach ($result as $row) { ?>
+    <!-- Modal Hapus Admin -->
+    <?php
+    if (!empty($result)) {
+        foreach ($result as $row) {
+            ?>
     <div class="modal fade" id="deleteAdminModal<?php echo $row['id']; ?>" tabindex="-1"
         aria-labelledby="deleteAdminModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
         <div class="modal-dialog">
@@ -396,30 +412,43 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <form action="proses/proses_delete_user.php" method="POST">
+                    <form action="proses/proses_hapus_user.php" method="POST" class="d-inline">
                         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                        <button type="submit" class="btn btn-danger">Hapus</button>
+                        <button type="submit" class="btn btn-danger" name="delete_user_validate">Hapus</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <?php } ?>
-    <!-- End Modal Delete Admin -->
-
-
     <?php
-    foreach ($result as $row) {
-        ?>
-
-    <?php
+        }
     }
     ?>
+    </main>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="assets/js/validation.js"></script>
+    <script>
+    (function() {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
     </script>
+
+    <footer class="footer">
+        <p>&copy; 2024 Sistem Informasi Manajemen Apotek.</p>
+    </footer>
+
 </body>
 
 </html>

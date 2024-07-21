@@ -11,6 +11,9 @@
     <style>
     body {
         background-color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }
 
     .navbar {
@@ -62,11 +65,23 @@
     }
 
     .navbar-nav .dropdown-item {
-        color: #fff.
+        color: #fff;
     }
 
     .navbar-nav .dropdown-item:hover {
         background-color: #28a745;
+    }
+
+    .footer {
+        background-color: #28a745;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        margin-top: auto;
+    }
+
+    .footer p {
+        margin: 0;
     }
     </style>
 </head>
@@ -97,6 +112,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card text-center">
+                                    <img src="obat.jpg" class="card-img-top" alt="Manajemen Stok">
                                     <div class="card-body">
                                         <i class="bi bi-box-seam display-4 text-success"></i>
                                         <h5 class="card-title">Manajemen Stok</h5>
@@ -107,6 +123,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="card text-center">
+                                    <img src="penjualan.jpg" class="card-img-top" alt="Penjualan">
                                     <div class="card-body">
                                         <i class="bi bi-cart-check display-4 text-success"></i>
                                         <h5 class="card-title">Penjualan</h5>
@@ -116,6 +133,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="card text-center">
+                                    <img src="informasi.jpg" class="card-img-top" alt="Informasi Pelanggan">
                                     <div class="card-body">
                                         <i class="bi bi-people-fill display-4 text-success"></i>
                                         <h5 class="card-title">Informasi Pelanggan</h5>
@@ -130,6 +148,12 @@
             <!-- End Content -->
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Sistem Informasi Manajemen Apotek.</p>
+    </footer>
+    <!-- End Footer -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
